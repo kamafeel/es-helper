@@ -1,0 +1,10 @@
+logging:
+  level:
+    root: info
+
+# 配置es
+es:
+  enabled: true
+  nodes: 127.0.0.1:9200  #注意分隔符是,
+  username:
+  password:

@@ -1,0 +1,35 @@
+{
+  "settings": {
+    "index.max_result_window": 500000,
+    "index.number_of_shards": 5,
+    "index.number_of_replicas": 0
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "key": {
+          "type": "keyword"
+        },
+        "type": {
+          "type": "keyword"
+        },
+        "typeSub": {
+          "type": "keyword"
+        },
+        "srcValue": {
+          "type": "keyword"
+        },
+        "dstValue": {
+          "type": "keyword"
+        },
+        "count": {
+          "type": "long"
+        },
+        "partition": {
+          "type": "date",
+          "format": "yyyy-MM-dd HH:mm:ss"
+        }
+      }
+    }
+  }
+}
