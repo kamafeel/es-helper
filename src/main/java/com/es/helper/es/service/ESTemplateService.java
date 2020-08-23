@@ -174,7 +174,10 @@ public interface ESTemplateService<T,M> {
      * @return
      * @throws Exception
      */
-     BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, Class<T> clazz) throws Exception;
+     BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, String indexName) throws Exception;
+     default BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, Class<T> clazz) throws Exception{
+         return this.deleteByCondition(queryBuilder,MetaTools.getIndexMetaData(clazz).getIndexName());
+     }
 
     /**
      * 删除文档

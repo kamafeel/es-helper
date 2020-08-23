@@ -42,6 +42,7 @@ import org.elasticsearch.index.query.InnerHitBuilder;
 import org.elasticsearch.index.query.MatchAllQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.reindex.BulkByScrollResponse;
+import org.elasticsearch.index.reindex.DeleteByQueryRequest;
 import org.elasticsearch.script.Script;
 import org.elasticsearch.script.ScriptType;
 import org.elasticsearch.script.mustache.SearchTemplateRequest;
@@ -396,8 +397,14 @@ public class ESTemplateServiceImpl<T, M> implements ESTemplateService<T, M> {
     }
 
     @Override
-    public BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, Class<T> clazz) throws Exception {
-        throw new ESCommonException(ErrorCodeEnum.UNEXCEPTED, "this es version is not support");
+    public BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, String indexName) throws Exception {
+        if (queryBuilder == null) {
+            queryBuilder = new MatchAllQueryBuilder();
+        }
+        DeleteByQueryRequest request = new DeleteByQueryRequest(indexName);
+        request.setQuery(queryBuilder);
+        BulkByScrollResponse bulkResponse = client.deleteByQuery(request, RequestOptions.DEFAULT);
+        return bulkResponse;
     }
 
     @Override
