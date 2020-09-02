@@ -255,11 +255,17 @@ public class ESTemplateServiceImpl<T, M> implements ESTemplateService<T, M> {
         for (int i = 0; i < list.size(); i++) {
             T t = list.get(i);
             String id = MetaTools.getESId(t);
-            MetaTools.ignoreEsId(t);
-            String sourceJsonStr = JsonUtil.toStr(t);
-            br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE, id)
-                    .opType(DocWriteRequest.OpType.CREATE) //只创建
-                    .source(sourceJsonStr, XContentType.JSON));
+            if(StringUtils.isEmpty(id)){
+                br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE, id)
+                        .opType(DocWriteRequest.OpType.INDEX) //自动生成ID
+                        .source(JsonUtil.toStr(t), XContentType.JSON));
+            }else{
+                MetaTools.ignoreEsId(t);
+                br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE, id)
+                        .opType(DocWriteRequest.OpType.CREATE) //只创建
+                        .source(JsonUtil.toStr(t), XContentType.JSON));
+            }
+
 
         }
         BulkResponse bulkResponse = client.bulk(br, RequestOptions.DEFAULT);
@@ -277,7 +283,7 @@ public class ESTemplateServiceImpl<T, M> implements ESTemplateService<T, M> {
                 m.remove(ID);//不再保存ID
             }else{
                 br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE)
-                        .opType(DocWriteRequest.OpType.CREATE) //只创建
+                        .opType(DocWriteRequest.OpType.INDEX) //自动生成ID
                         .source(m, XContentType.JSON));
             }
         }

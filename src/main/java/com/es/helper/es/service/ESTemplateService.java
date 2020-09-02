@@ -170,11 +170,11 @@ public interface ESTemplateService<T,M> {
     /**
      * 根据条件删除文档
      * @param queryBuilder 查询条件（官方） 为NULL,将删除所有数据
-     * @param clazz 文档pojo类类型
      * @return
      * @throws Exception
      */
      BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, String indexName) throws Exception;
+
      default BulkByScrollResponse deleteByCondition(QueryBuilder queryBuilder, Class<T> clazz) throws Exception{
          return this.deleteByCondition(queryBuilder,MetaTools.getIndexMetaData(clazz).getIndexName());
      }
