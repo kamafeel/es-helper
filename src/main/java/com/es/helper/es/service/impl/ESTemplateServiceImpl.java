@@ -277,10 +277,11 @@ public class ESTemplateServiceImpl<T, M> implements ESTemplateService<T, M> {
         for (int i = 0; i < list.size(); i++) {
             Map<String,Object> m = list.get(i);
             if (m.containsKey(ID)) {
+                String id = m.get(ID).toString();
+                m.remove(ID);//不再保存ID
                 br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE, m.get(ID).toString())
                         .opType(DocWriteRequest.OpType.CREATE) //只创建
                         .source(m, XContentType.JSON));
-                m.remove(ID);//不再保存ID
             }else{
                 br.add(new IndexRequest(indexName, ESConst.ES_INDEX_TYPE)
                         .opType(DocWriteRequest.OpType.INDEX) //自动生成ID
