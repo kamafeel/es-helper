@@ -8,3 +8,4 @@ es:
   nodes: 127.0.0.1:9200  #注意分隔符是,
   username:
   password:
+  maxRetryTimeoutMillis: 3000 #超时时间
