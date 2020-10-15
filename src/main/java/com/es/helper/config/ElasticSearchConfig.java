@@ -38,6 +38,8 @@ public class ElasticSearchConfig {
     private String username;
     @Value("${es.password}")
     private String password;
+    @Value("${es.maxRetryTimeoutMillis:3000}")
+    private Integer maxRetryTimeoutMillis;
 
     @Bean
     public RestClientBuilder restClientBuilder() {
@@ -45,7 +47,7 @@ public class ElasticSearchConfig {
                 .map(this::makeHttpHost)
                 .filter(Objects::nonNull)
                 .toArray(HttpHost[]::new);
-        return RestClient.builder(hosts);
+        return RestClient.builder(hosts).setMaxRetryTimeoutMillis(maxRetryTimeoutMillis);//TODO ES的超时有很多坑,这里暂时设置主线程不报错,只打印
     }
 
 
