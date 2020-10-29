@@ -1,7 +1,9 @@
 #使用ES
-绝大部分已经封装
-ESIndexService  索引使用
-ESTemplateService 文档使用
+使用high-level-client
+
+ESIndexService  操作索引使用
+
+ESTemplateService 操作文档使用
 
 ES版本6.5.4-6.7.*
 
